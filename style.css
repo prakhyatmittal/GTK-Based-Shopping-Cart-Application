@@ -1,37 +1,394 @@
-/* Product card */
+/* ============================================================
+   QuickCart — visual theme
+   ============================================================
+
+   Palette
+     brand    #0F5C3C  deep grocer green — headers, primary actions
+     brand+   #0B4A30  pressed/hover state
+     soft     #E6F1EA  tinted fill for steppers and image tiles
+     accent   #9C5410  amber, reserved ONLY for savings/list price
+     canvas   #F2F4F0  cool neutral paper (not warm cream)
+     surface  #FFFFFF  cards, footer, dialogs
+     ink      #14201A  primary text
+     muted    #5E6B63  secondary text
+     line     #DDE4DC  hairline borders
+
+   Structure uses 1px borders rather than drop shadows, so the interface
+   reads as a tool rather than a stack of floating cards.
+
+   Note on `background-image: none` throughout: stock Adwaita paints
+   buttons and headerbars with a gradient background-image at the same
+   APPLICATION priority. A plain background-color silently loses to it,
+   so every themed control clears the image explicitly.
+   ============================================================ */
+
+/* ---------- base ---------- */
+
+window {
+  background-color: #F2F4F0;
+  font-family: "Inter", "Segoe UI", "Cantarell", sans-serif;
+  color: #14201A;
+}
+
+label {
+  color: #14201A;
+}
+
+/* ---------- header bar ----------
+   headerbar.app-header (element + class) is needed, not just .app-header,
+   to match the stock theme's specificity so our color wins. */
+
+headerbar.app-header {
+  background-image: none;
+  background-color: #0F5C3C;
+  border-bottom: 1px solid #0B4A30;
+  box-shadow: none;
+  min-height: 52px;
+  padding: 0 14px;
+}
+headerbar.app-header * {
+  color: #FFFFFF;
+}
+headerbar.app-header .title {
+  font-size: 15px;
+  font-weight: 700;
+}
+headerbar.app-header .subtitle {
+  font-size: 11px;
+  font-weight: 400;
+  color: #AFCFBE;
+}
+headerbar.app-header button {
+  background-image: none;
+}
+
+/* ---------- buttons ---------- */
+
+.btn-primary {
+  background-image: none;
+  background-color: #0F5C3C;
+  color: #FFFFFF;
+  border: 1px solid #0F5C3C;
+  border-radius: 8px;
+  padding: 10px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: none;
+  text-shadow: none;
+}
+.btn-primary:hover {
+  background-color: #0B4A30;
+  border-color: #0B4A30;
+}
+.btn-primary:active {
+  background-color: #093B26;
+}
+.btn-primary:disabled {
+  background-color: #A9C4B6;
+  border-color: #A9C4B6;
+  color: #F2F4F0;
+}
+/* GTK does not reliably inherit a button's `color` down to its label
+   child, so each themed button restates the color on `label`. */
+.btn-primary label {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+.btn-primary:disabled label {
+  color: #F2F4F0;
+}
+
+/* Ghost button for the dark header — outlined, not a white slab.
+   Selectors are qualified with `headerbar.app-header button` so they
+   outrank Adwaita's own headerbar button rules, which otherwise repaint
+   this as a light slab with dark text. */
+headerbar.app-header button.btn-ghost {
+  background-image: none;
+  background-color: transparent;
+  border: 1px solid #4C8468;
+  border-radius: 7px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: none;
+  text-shadow: none;
+}
+headerbar.app-header button.btn-ghost:hover {
+  background-color: #176B47;
+  border-color: #7FB79A;
+}
+headerbar.app-header button.btn-ghost label {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.btn-link {
+  background-image: none;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  color: #0F5C3C;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 6px 8px;
+}
+.btn-link:hover {
+  background-color: #E6F1EA;
+  border-radius: 6px;
+}
+.btn-link label {
+  color: #0F5C3C;
+  font-weight: 600;
+}
+
+/* ---------- auth screens ---------- */
+
+.auth-card {
+  background-color: #FFFFFF;
+  border: 1px solid #DDE4DC;
+  border-radius: 16px;
+  padding: 34px 32px;
+}
+
+.auth-mark {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0F5C3C;
+  margin-bottom: 14px;
+}
+
+.auth-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #14201A;
+}
+
+.auth-subtitle {
+  font-size: 13px;
+  color: #5E6B63;
+  margin-bottom: 10px;
+}
+
+.field-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #5E6B63;
+  margin-bottom: 2px;
+}
+
+.entry-field {
+  background-image: none;
+  background-color: #FFFFFF;
+  border: 1px solid #DDE4DC;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13.5px;
+  color: #14201A;
+  box-shadow: none;
+}
+.entry-field:focus {
+  border-color: #0F5C3C;
+  box-shadow: inset 0 0 0 1px #0F5C3C;
+}
+
+.error-label {
+  color: #A32B22;
+  background-color: #FBECEA;
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ---------- shop page ---------- */
+
+.page-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #14201A;
+}
+
+.page-subtitle {
+  font-size: 12.5px;
+  color: #5E6B63;
+}
+
 .product-card {
-    padding: 12px;
-    border-radius: 12px;
-    background: #ffffff;
+  background-color: #FFFFFF;
+  border: 1px solid #DDE4DC;
+  border-radius: 14px;
+  padding: 14px;
+}
+.product-card:hover {
+  border-color: #B7C9BD;
 }
 
-/* Product name */
+/* The product photos are JPEGs with baked-in white backgrounds, so a
+   tinted tile would frame each one with a visible white rectangle.
+   A white tile with a hairline edge keeps the structure without the seam. */
+.product-thumb {
+  background-color: #FFFFFF;
+  border: 1px solid #EDF1EB;
+  border-radius: 10px;
+  padding: 10px;
+}
+
 .product-name {
-    font-weight: bold;
-    font-size: 15px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #14201A;
 }
 
-/* Price */
-.product-price {
-    color: #2e7d32;
-    font-weight: bold;
+.product-unit {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #5E6B63;
 }
 
-/* Description */
 .product-desc {
-    color: #555555;
-    font-size: 12px;
+  font-size: 11.5px;
+  color: #77857C;
 }
 
-/* Quantity buttons */
+.product-price {
+  font-size: 16px;
+  font-weight: 700;
+  color: #14201A;
+}
+
+/* Amber is used here and nowhere else — it marks a saving. */
+.product-mrp {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #9C5410;
+}
+
+.save-tag {
+  background-color: #FBF0E2;
+  color: #9C5410;
+  border-radius: 5px;
+  padding: 2px 7px;
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+/* ---------- quantity stepper ---------- */
+
+.stepper {
+  background-color: #E6F1EA;
+  border-radius: 9px;
+  padding: 3px;
+}
+
 .qty-btn {
-    min-width: 32px;
-    min-height: 28px;
-    border-radius: 8px;
+  background-image: none;
+  background-color: transparent;
+  color: #0F5C3C;
+  border: none;
+  border-radius: 6px;
+  box-shadow: none;
+  text-shadow: none;
+  min-width: 30px;
+  min-height: 26px;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 0;
+}
+.qty-btn:hover {
+  background-color: #CFE4D8;
+}
+.qty-btn:disabled {
+  color: #A9C4B6;
+  background-color: transparent;
+}
+.qty-btn label {
+  color: #0F5C3C;
+  font-size: 15px;
+  font-weight: 700;
+}
+.qty-btn:disabled label {
+  color: #A9C4B6;
 }
 
-/* Quantity number */
 .qty-label {
-    min-width: 24px;
-    font-weight: bold;
+  min-width: 26px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #14201A;
+}
+
+/* ---------- footer / cart bar ---------- */
+
+.cart-bar {
+  background-color: #FFFFFF;
+  border-top: 1px solid #DDE4DC;
+  padding: 12px 16px;
+}
+
+.cart-total {
+  font-size: 16px;
+  font-weight: 700;
+  color: #14201A;
+}
+
+.cart-count {
+  font-size: 12px;
+  color: #5E6B63;
+}
+
+.cart-empty {
+  font-size: 13px;
+  color: #77857C;
+}
+
+/* ---------- checkout dialog ---------- */
+
+dialog {
+  background-color: #F2F4F0;
+}
+
+.receipt {
+  background-color: #FFFFFF;
+  border: 1px solid #DDE4DC;
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+
+.receipt-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #14201A;
+}
+
+.receipt-meta {
+  font-size: 11.5px;
+  color: #5E6B63;
+}
+
+.receipt-line {
+  font-size: 13px;
+  color: #14201A;
+}
+
+.receipt-rule {
+  background-color: #DDE4DC;
+  min-height: 1px;
+}
+
+.receipt-total {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0F5C3C;
+}
+
+.qr-frame {
+  background-color: #FFFFFF;
+  border: 1px solid #DDE4DC;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.qr-caption {
+  font-size: 11.5px;
+  color: #5E6B63;
 }

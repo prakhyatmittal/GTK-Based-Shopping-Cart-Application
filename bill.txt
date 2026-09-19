@@ -1,6 +1,0 @@
-==== BILL RECEIPT ====
-Milk x1 - ₹80.00
-
-Total Items: 1
-Total Price: ₹80.00
-Thank you for shopping!

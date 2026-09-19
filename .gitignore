@@ -1,0 +1,15 @@
+# Build artifacts
+/build/
+/dist/
+quickcart
+quickcart.exe
+*.o
+
+# Runtime database — created automatically on first launch, never committed
+# (it also holds hashed user credentials, which don't belong in git history)
+shopping_cart.db
+
+# Editor/OS cruft
+.vscode/
+.DS_Store
+*.swp
